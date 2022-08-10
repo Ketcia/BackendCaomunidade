@@ -8,7 +8,7 @@
     @endforeach
 </ul>
 @endif
-<form method="POST" action="{{url('mensagem', $mensagem->id)}}">
+<form method="POST" action="{{url('mensagem', $mensagem->id)}}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div>
@@ -33,6 +33,11 @@
             <label for="top{{$topico->id}}">{{$topico->topico}}</label>
             @endforeach
         </div>
+    </div>
+    <div>
+        <label for="img">Imagem</label>
+        <input type="file" name="imagem" id="img" accept="image/*" required/>
+            <img src="{{Storage::url($mensagem->imagem)}}" alt="{{$mensagem->titulo}}" class="showImg">
     </div>
     <button type="submit" class="button">Salvar</button>
 </form>
