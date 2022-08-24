@@ -16,7 +16,7 @@ class TopicoController extends Controller
      */
     public function index()
     {
-        $topico = Topico::all;
+        $topico = Topico::all();
         return $this->success($topicos);
     }
 
@@ -80,7 +80,19 @@ class TopicoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'topico' => 'required|max:255',
+        ]);
+        if ($validated){
+            try{
+                $topico = Topico::findOrFail($id);
+                $topico->topico=$request->get('topico');
+                $topico->save();
+                return $this->success($topico);
+            }catch(\Thorwable $th){
+                return $this->error("Topico não encontrado!!!",401,$th->getMessage());
+            }
+        }
     }
 
     /**
@@ -91,6 +103,13 @@ class TopicoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $topico = Topico::findOrFail($id);
+            $topico->delete();
+            return $this->success($topico);
+
+        }catch(\Throwable $th){
+            return $this->error("Topico não encintrado!!!",401,$th->getMessage());
+        }
     }
 }
