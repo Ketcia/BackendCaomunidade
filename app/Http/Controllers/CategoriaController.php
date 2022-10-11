@@ -43,7 +43,7 @@ class CategoriaController extends Controller
             $topico = new Categoria();
             $topico->topico = $request->get('topico');
             $topico->save();
-            return redirect('topico');
+            return redirect('categoria');
         }
     }
 
@@ -79,10 +79,10 @@ class CategoriaController extends Controller
     public function update(Request $request, Categoria $topico)
     {
         $validated = $request->validate([
-            'topico' => 'required|max:255',
+            'categoria' => 'required|max:255',
         ]);
         if ($validated) {
-            $topico->topico = $request->get('topico');
+            $topico->categoria = $request->get('topico');
             $topico->save();
             return redirect('topico');
         }
@@ -97,6 +97,6 @@ class CategoriaController extends Controller
     public function destroy(Categoria $topico)
     {
         $topico->delete();
-        return redirect("topico");
+        return redirect("categoria");
     }
 }
