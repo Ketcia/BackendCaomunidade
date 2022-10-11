@@ -5,7 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MensagemTopico extends Model
+class Categoria extends Model
 {
     use HasFactory;
+    public function publicacoes()
+    {
+        return $this->belongsToMany(Publicacao::class);
+    }
 }

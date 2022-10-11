@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mensagem extends Model
+class Publicacao extends Model
 {
     use HasFactory;
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function topicos()
+    public function categorias()
     {
-        return $this->belongsToMany(Topico::class)->withTimestamps();
+        return $this->belongsToMany(Categoria::class)->withTimestamps();
     }
 }

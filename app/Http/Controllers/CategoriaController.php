@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Topico;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 
-class TopicoController extends Controller
+class CategoriaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class TopicoController extends Controller
      */
     public function index()
     {
-        $topicos = Topico::all();
+        $topicos = Categoria::all();
         return view("restrict/topico", compact('topicos'));
     }
 
@@ -40,7 +40,7 @@ class TopicoController extends Controller
             'topico' => 'required|max:255',
         ]);
         if($validated){
-            $topico = new Topico();
+            $topico = new Categoria();
             $topico->topico = $request->get('topico');
             $topico->save();
             return redirect('topico');
@@ -50,10 +50,10 @@ class TopicoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Topico  $topico
+     * @param  \App\Models\Categoria  $topico
      * @return \Illuminate\Http\Response
      */
-    public function show(Topico $topico)
+    public function show(Categoria $topico)
     {
         //
     }
@@ -61,10 +61,10 @@ class TopicoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Topico  $topico
+     * @param  \App\Models\Categoria  $topico
      * @return \Illuminate\Http\Response
      */
-    public function edit(Topico $topico)
+    public function edit(Categoria $topico)
     {
         return view("restrict/topico/edit", compact('topico'));
     }
@@ -73,10 +73,10 @@ class TopicoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Topico  $topico
+     * @param  \App\Models\Categoria  $topico
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Topico $topico)
+    public function update(Request $request, Categoria $topico)
     {
         $validated = $request->validate([
             'topico' => 'required|max:255',
@@ -91,10 +91,10 @@ class TopicoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Topico  $topico
+     * @param  \App\Models\Categoria  $topico
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Topico $topico)
+    public function destroy(Categoria $topico)
     {
         $topico->delete();
         return redirect("topico");

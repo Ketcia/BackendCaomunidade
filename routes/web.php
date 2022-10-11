@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\MensagemController;
-use App\Http\Controllers\TopicoController;
+use App\Http\Controllers\PublicacaoController;
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +28,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource("mensagem", MensagemController::class);
-    Route::resource("topico", TopicoController::class);
+    Route::resource("publicacao", PublicacaoController::class);
+    Route::resource("categoria", CategoriaController::class);
 });

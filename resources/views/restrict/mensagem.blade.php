@@ -2,7 +2,7 @@
 
 @section('content')
 <div>
-    <a href="{{url('mensagem/create')}}" class="button">Adicionar</a>
+    <a href="{{url('publicacao/create')}}" class="button">Adicionar</a>
 </div>
 <table>
     <thead>

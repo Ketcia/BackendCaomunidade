@@ -1,14 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Mensagem;
-use App\Models\Topico;
+use App\Models\Publicacao;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class MensagemController extends Controller
+
+class PublicacaoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class MensagemController extends Controller
      */
     public function index()
     {
-        $mensagens = Mensagem::all();
+        $mensagens = Publicacao::all();
         return view("restrict/mensagem", compact('mensagens'));
     }
 
@@ -28,7 +28,7 @@ class MensagemController extends Controller
      */
     public function create()
     {
-        $topicos = Topico::all();
+        $topicos = Categoria::all();
         return view("restrict/mensagem/create", compact('topicos'));
     }
 
@@ -43,21 +43,20 @@ class MensagemController extends Controller
         $validated = $request->validate([
             'titulo' => 'required|max:255',
             'mensagem' => 'required|max:255',
-            'topico' => 'array|exists:App\Models\Topico,id',
+            'topico' => 'array|exists:App\Models\Categoria,id',
             'imagem' => 'image'
         ]);
         if ($validated) {
-            
-            $mensagem = new Mensagem();
-            $mensagem-> user_id = Auth::user()->id;
+            $mensagem = new Publicacao();
+            $mensagem->user_id = Auth::user()->id;
             $mensagem->titulo = $request->get('titulo');
             $mensagem->mensagem = $request->get('mensagem');
-            //$name = $request->file('imagem')->getClientOriginalName();
-            //$path = $request->file('imagem')->storeAs("public/img",$name);
-            $name = $request->file('imagem')->store('','s3');
-            Storage::disk('s3')->setVisibility($name,'public');
-            $path = Storage::disk('s3')->url($name);
-            $mensagem->imagem=$path;
+            // $name = $request->file('imagem')->getClientOriginalName();
+            // $path = $request->file('imagem')->storeAs("public/img", $name);
+            $name = $request->file('imagem')->store('', 'google');
+            Storage::disk('google')->setVisibility($name, 'public');
+            $path = Storage::disk('google')->url($name);
+            $mensagem->imagem = $path; 
             $mensagem->save();
             $mensagem->topicos()->attach($request->get('topico'));
             return redirect('mensagem');
@@ -67,10 +66,10 @@ class MensagemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Mensagem  $mensagem
+     * @param  \App\Models\Publicacao  $mensagem
      * @return \Illuminate\Http\Response
      */
-    public function show(Mensagem $mensagem)
+    public function show(Publicacao $mensagem)
     {
         //
     }
@@ -78,12 +77,12 @@ class MensagemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Mensagem  $mensagem
+     * @param  \App\Models\Publicacao  $mensagem
      * @return \Illuminate\Http\Response
      */
-    public function edit(Mensagem $mensagem)
+    public function edit(Publicacao $mensagem)
     {
-        $topicos = Topico::all();
+        $topicos = Categoria::all();
         return view("restrict/mensagem/edit", compact('topicos', 'mensagem'));
     }
 
@@ -91,26 +90,26 @@ class MensagemController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mensagem  $mensagem
+     * @param  \App\Models\Publicacao  $mensagem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mensagem $mensagem)
+    public function update(Request $request, Publicacao $mensagem)
     {
         $validated = $request->validate([
             'titulo' => 'required|max:255',
             'mensagem' => 'required|max:255',
-            'topico' => 'array|exists:App\Models\Topico,id',
-            'imagem'=>'image'
+            'topico' => 'array|exists:App\Models\Categoria,id',
+            'imagem' => 'image'
         ]);
         if ($validated) {
             $mensagem->titulo = $request->get('titulo');
             $mensagem->mensagem = $request->get('mensagem');
-            //$name = $request->file('imagem')->getClientOriginalName();
-            //$path = $request->file('imagem')->storeAs("public/img",$name);
-            $name = $request->file('imagem')->store('','s3');
-            Storage::disk('s3')->setVisibility($name,'public');
-            $path = Storage::disk('s3')->url($name);
-            $mensagem->imagem=$path;
+            // $name = $request->file('imagem')->getClientOriginalName();
+            // $path = $request->file('imagem')->storeAs("public/img", $name);
+            $name = $request->file('imagem')->store('', 'google');
+            Storage::disk('google')->setVisibility($name, 'public');
+            $path = Storage::disk('google')->url($name);
+            $mensagem->imagem = $path; 
             $mensagem->save();
             $mensagem->topicos()->sync($request->get('topico'));
             return redirect('mensagem');
@@ -120,10 +119,10 @@ class MensagemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Mensagem  $mensagem
+     * @param  \App\Models\Publicacao  $mensagem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mensagem $mensagem)
+    public function destroy(Publicacao $mensagem)
     {
         $mensagem->delete();
         return redirect("mensagem");
