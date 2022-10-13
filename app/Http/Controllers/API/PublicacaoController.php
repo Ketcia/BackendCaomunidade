@@ -44,8 +44,8 @@ class PublicacaoController extends Controller
             $publicacoes->descricao = $request->get('descricao');
             if ($request->get('imagem')) {
                 $image_base64 = base64_decode($request->get('imagem'));
-                Storage::disk('google')->put($request->get('file'), $image_base64, 'public');
-                $path = Storage::disk('google')->url($request->get('file'));
+                Storage::disk('s3')->put($request->get('file'), $image_base64, 'public');
+                $path = Storage::disk('s3')->url($request->get('file'));
                 $publicacoes->imagem = $path;
             }
             $publicacoes->save();
@@ -98,8 +98,8 @@ class PublicacaoController extends Controller
                 }
                 if($request->get('imagem')) {
                     $image_base64 = base64_decode($request->get('imagem'));
-                    Storage::disk('google')->put($request->get('file'), $image_base64, 'public');
-                    $path = Storage::disk('google')->url($request->get('file'));
+                    Storage::disk('s3')->put($request->get('file'), $image_base64, 'public');
+                    $path = Storage::disk('s3')->url($request->get('file'));
                     $mensagem->imagem = $path;
                 }
                 $mensagem->save();

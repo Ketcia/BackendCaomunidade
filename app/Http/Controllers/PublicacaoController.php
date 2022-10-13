@@ -42,7 +42,7 @@ class PublicacaoController extends Controller
     {
         $validated = $request->validate([
             'titulo' => 'required|max:255',
-            'mensagem' => 'required|max:255',
+            'descricao' => 'required|max:255',
             'topico' => 'array|exists:App\Models\Categoria,id',
             'imagem' => 'image'
         ]);
@@ -50,16 +50,16 @@ class PublicacaoController extends Controller
             $mensagem = new Publicacao();
             $mensagem->user_id = Auth::user()->id;
             $mensagem->titulo = $request->get('titulo');
-            $mensagem->mensagem = $request->get('mensagem');
+            $mensagem->descricao = $request->get('descricao');
             // $name = $request->file('imagem')->getClientOriginalName();
             // $path = $request->file('imagem')->storeAs("public/img", $name);
-            $name = $request->file('imagem')->store('', 'google');
-            Storage::disk('google')->setVisibility($name, 'public');
-            $path = Storage::disk('google')->url($name);
+            $name = $request->file('imagem')->store('', 's3');
+            Storage::disk('s3')->setVisibility($name, 'public');
+            $path = Storage::disk('s3')->url($name);
             $mensagem->imagem = $path; 
             $mensagem->save();
-            $mensagem->topicos()->attach($request->get('topico'));
-            return redirect('mensagem');
+            $mensagem->categorias()->attach($request->get('categoria'));
+            return redirect('publicacao');
         }
     }
 
@@ -106,13 +106,13 @@ class PublicacaoController extends Controller
             $mensagem->mensagem = $request->get('mensagem');
             // $name = $request->file('imagem')->getClientOriginalName();
             // $path = $request->file('imagem')->storeAs("public/img", $name);
-            $name = $request->file('imagem')->store('', 'google');
-            Storage::disk('google')->setVisibility($name, 'public');
-            $path = Storage::disk('google')->url($name);
+            $name = $request->file('imagem')->store('', 's3');
+            Storage::disk('s3')->setVisibility($name, 'public');
+            $path = Storage::disk('s3')->url($name);
             $mensagem->imagem = $path; 
             $mensagem->save();
             $mensagem->topicos()->sync($request->get('topico'));
-            return redirect('mensagem');
+            return redirect('publicacao');
         }
     }
 

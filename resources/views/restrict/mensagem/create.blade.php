@@ -8,7 +8,7 @@
     </ul>
 @endif
 
-<form method="POST" action="{{url('mensagem')}}" enctype="multipart/form-data">
+<form method="POST" action="{{url('publicacao')}}" enctype="multipart/form-data">
     @csrf
     @method('POST')
     <div>
@@ -17,7 +17,7 @@
     </div>
     <div>
         <label for="msg">Mensagem</label>
-        <textarea name="mensagem" id="msg" required></textarea>
+        <textarea name="descricao" id="msg" required></textarea>
     </div>
     <div>
         <label>Tópicos</label>
