@@ -21,7 +21,7 @@
         <tr>
             <td>{{$mensagem->user->name}}</td>
             <td>{{$mensagem->titulo}}</td>
-            <td>{{$mensagem->mensagem}}</td>
+            <td>{{$mensagem->descricao}}</td>
             <td> 
                 @if($mensagem->topicos)
                 @foreach($mensagem->topicos as $topico)
@@ -39,7 +39,7 @@
                 </a>
             </td>
             <td>
-                <form method="POST" action="{{route('categoria.destroy',$mensagem->id)}}" onsubmit="return confirm('Tem certeza?');">
+                <form method="POST" action="{{route('publicacao.destroy',$mensagem->id)}}" onsubmit="return confirm('Tem certeza?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="button">
