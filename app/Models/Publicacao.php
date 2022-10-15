@@ -12,7 +12,7 @@ class Publicacao extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function categorias()
+    public function categoria()
     {
         return $this->belongsToMany(Categoria::class)->withTimestamps();
     }
