@@ -34,7 +34,7 @@ class PublicacaoController extends Controller
         $validated = $request->validate([
             'titulo' => 'required|max:255',
             'descricao' => 'required|max:255',
-            'categoria' => 'array|exists:App\Models\Categoria,id'
+            'topico' => 'array|exists:App\Models\Categoria,id'
         ]);
     if ($validated) {
         try {
@@ -49,7 +49,7 @@ class PublicacaoController extends Controller
                 $publicacoes->imagem = $path;
             }
             $publicacoes->save();
-            $publicacoes->categoria()->attach($request->get('categoria'));
+            $publicacoes->categoria()->attach($request->get('topico'));
             return $this->success($publicacoes);
             } catch (\Throwable $th) {
                 return $this->error("Erro ao publicar!", 401, $th->getMessage());
@@ -66,7 +66,7 @@ class PublicacaoController extends Controller
     public function show($id)
     {
         try{
-            $publicacoes = Publicacao::where('id', $id)->with('categoria')->get();
+            $publicacoes = Publicacao::where('id', $id)->with('topico')->get();
             return $this->sucess($publicacoes[0]);
         } catch (\Throwable $th) {
             return $this->error("Publicaçao não encontrada!", 401, $th->getMessage());
@@ -85,7 +85,7 @@ class PublicacaoController extends Controller
         $validated = $request->validate([
             'titulo' => 'max:255',
             'descricao' => 'max:255',
-            'categoria' => "array|exists:App\Models\Categoria,id"
+            'topico' => "array|exists:App\Models\Categoria,id"
         ]);
         if ($validated) {
             try{
@@ -103,8 +103,8 @@ class PublicacaoController extends Controller
                     $mensagem->imagem = $path;
                 }
                 $mensagem->save();
-                if ($request->get('categoria')) {
-                    $publicacoes->categoria()->sync($request->get('categoria'));
+                if ($request->get('topico')) {
+                    $publicacoes->categoria()->sync($request->get('topico'));
                 }
                 return $this->success($mensagem);
             } catch (\Throwable $th) {
