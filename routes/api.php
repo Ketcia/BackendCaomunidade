@@ -15,6 +15,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user',[UserController::class, 'update']);
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::resource("categoria",CategoriaController::class);
-    Route::resource("publicacao",PublicacaoController::class);
+    Route::resource("publicacao",PublicacaoController::class)->except('index');
 
 });
