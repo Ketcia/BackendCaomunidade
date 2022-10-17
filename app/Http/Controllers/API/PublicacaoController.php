@@ -19,7 +19,7 @@ class PublicacaoController extends Controller
      */
     public function index()
     {
-        $publicacoes = Publicacao::all();
+        $publicacoes = Publicacao::all()->with(['topicos:id,topico', 'user:id,name']);
         return $this->success($publicacoes);
     }
 
