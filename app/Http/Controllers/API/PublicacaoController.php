@@ -19,7 +19,10 @@ class PublicacaoController extends Controller
      */
     public function index()
     {
-        $publicacoes = Publicacao::with(['categoria:id,topico', 'user:id,name'])->get();
+        $publicacoes = Publicacao::select(['id', 'titulo', 'descricao', 'imagem', 'created_at', 'user_id'])
+            ->with(['categoria:id,topico', 'user:id,name'])
+            ->orderBy('created_at', 'DESC')
+            ->get();
         return $this->success($publicacoes);
     }
 

@@ -58,7 +58,7 @@ class PublicacaoController extends Controller
             $path = Storage::disk('s3')->url($name);
             $mensagem->imagem = $path; 
             $mensagem->save();
-            $mensagem->categorias()->attach($request->get('categoria'));
+            $mensagem->categoria()->attach($request->get('categoria'));
             return redirect('publicacao');
         }
     }
